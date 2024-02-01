@@ -2,15 +2,15 @@
 
 ## Problem Statement:
 
-### When you are deciding where to eat when you are hungry, typically you will judge the restaruarnts whether nice to eat or not based on their ratings and food reviews. After eating them, you will feel like overrated or scammed with the bad taste of the foods
+#### When you are deciding where to eat when you are hungry, typically you will judge the restaruarnts whether nice to eat or not based on their ratings and food reviews. After eating them, you will feel like overrated or scammed with the bad taste of the foods
 
 ## Solution:
 
-### Using Google APIs to extract the food reviews, find out which reviews are boosted with fake accounts to get good ratings or intentionally tried to make the restaurants rating lower.
+#### Using Google APIs to extract the food reviews, find out which reviews are boosted with fake accounts to get good ratings or intentionally tried to make the restaurants rating lower.
 
 ## Scope of Location:
 
-### Petaling Jaya, Selangor, Malaysia
+#### Petaling Jaya, Selangor, Malaysia
 
 ## Git Commands
 
