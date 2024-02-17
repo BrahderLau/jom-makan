@@ -4,11 +4,11 @@
 
 #### 1) Difficult to identify whether the restaurants has halal certificate provided by JAKIM or not when searched in Google Map. (Searching "Halal Food" for example, will find the restaurants with the keyword "halal" in the reviews, therefore non-halal results will still appear)
 
-#### 2) When you are deciding where to eat when you are hungry, typically you will judge the restaruarnts whether nice to eat or not based on their ratings and food reviews. After eating them, you will feel like overrated or scammed with the bad taste of the foods
+#### 2) When you are deciding where to eat when you are hungry, typically you will judge the restaruarnts whether nice to eat or not based on their ratings and food reviews. After eating them, you will feel like overrated or scammed because the food isn't delicious at all.
 
 ## Solution:
 
-#### Using Selenium/Google APIs to extract the food reviews, find out which reviews are boosted with fake accounts to get good ratings or intentionally tried to make the restaurants rating lower.
+#### Using Selenium/Google APIs to extract the food reviews, find out which restaurants has halal certification by JAKIM, which of them have their sources from HALAL vendors, and which reviews are boosted with fake accounts to get good ratings or intentionally trying to make the restaurants rating lower.
 
 #### Look up at www.halal.gov.my or www.verifyhalal.com
 
@@ -16,9 +16,9 @@
 
 ### Should I focus on areas which have:
 
-#### 1) less malay populations and less obvious malay shops? 
+#### 1) less malay populations and less obvious malay shops? 5 votes
 #### or 
-#### 2) more malay populations and more malay shops?
+#### 2) more malay populations and more malay shops? 1 vote
 
 ## Git Commands
 
