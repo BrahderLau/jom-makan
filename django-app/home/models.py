@@ -4,7 +4,7 @@ from django.db import models
 class FNB(models.Model):
     # Basic Information
     name = models.CharField(max_length=200)
-    category = models.CharField(max_length=50)
+    categories = models.JSONField(default=list, blank=True) 
     area = models.CharField(max_length=50)
     located_in = models.CharField(max_length=200, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
