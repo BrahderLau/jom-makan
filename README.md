@@ -34,7 +34,7 @@
 
 #### Halal Food, Western Food, Fast Food, Vegetarian Food, Chinese Food, Indian Food, Malay Food, Middle Eastern Food, Japanese Food, Korean Food, Cafe, Dessert
 
-## Git Commands
+## Git Basic Commands
 
 #### 1) ```git checkout -b your-branch-name```
 #### 2) ```git add .``` or the specific file you want to add e.g. tests.py
@@ -50,3 +50,6 @@
 #### 5) ```refactor```: (refactoring production code, eg. renaming a variable)
 #### 6) ```test```: (adding missing tests, refactoring tests; no production code change)
 #### 7) ```chore```: (updating grunt tasks etc; no production code change)
+
+## Git Other Commands
+#### 1) ```git rm --cached your-folder-or-file-name``` if you have issues of tracking your files
