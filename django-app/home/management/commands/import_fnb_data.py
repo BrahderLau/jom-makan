@@ -68,7 +68,7 @@ class Command(BaseCommand):
 
                     fnb = FNB.objects.create(
                         name=row['Name'],
-                        category=row['Category'],
+                        categories=row['Category'],
                         area=row['Area'],
                         located_in=row['Located In'],
                         address=row['Address'],
