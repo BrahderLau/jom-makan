@@ -122,9 +122,9 @@ class Command(BaseCommand):
                             Here we use get_or_create function in Review because fnb
                             and reviewer object has already been created. So just link them.
                             """
-                            photos = review.get('photos')
+                            photos = review.get('Photos')
                             if photos:
-                                photos = ast.literal_eval(photos)
+                                photos
                             else: 
                                 photos = []
 

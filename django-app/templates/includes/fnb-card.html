@@ -6,11 +6,13 @@
         <div class="d-flex">
           <h5 sclass="mt-3 mb-0">{{ fnb.name }}</h5>
           {% if fnb.average_rating %}
+          <!-- Average Rating -->
             <span class="badge badge-sm bg-gradient-primary">
               Average Rating: {{ fnb.average_rating|default:"Not rated yet" }} ⭐ ({{fnb.reviews_count}})
             </span>
           {% endif %}
           {% if fnb.halal_certification_expiry_date %}
+          <!-- Halal Certification -->
             <span class="badge badge-sm bg-gradient-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ fnb.halal_certification_expiry_date }}">
               Halal Certified
             </span>
@@ -18,9 +20,11 @@
         </div>
       </div>
       {% if fnb.photo %}
-        <img src="{{ fnb.photo }}" class="fnb-img">
+      <!-- Photo -->
+        <img src="{{ fnb.photo }}" class="img-thumbnail">
       {% endif %}
       {% if fnb.categories %}
+      <!-- Categories -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             {% for category, gradient in fnb.category_gradients %}
@@ -30,7 +34,7 @@
         </div>
       {% endif %}
       {% if fnb.opening_hours %}
-        <!-- Opening Hours -->
+      <!-- Opening Hours -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
@@ -76,7 +80,7 @@
         </div>
       {% endif %}
       {% if fnb.address %}
-        <!-- Address -->
+      <!-- Address -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
@@ -90,7 +94,7 @@
         </div>
       {% endif %}
       {% if fnb.phone %}
-        <!-- Contact -->
+      <!-- Contact -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
@@ -104,7 +108,7 @@
         </div>
       {% endif %}
       {% if fnb.google_map_url %}
-        <!-- Google Map Url -->
+      <!-- Google Map Url -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
@@ -118,7 +122,7 @@
         </div>
       {% endif %}
       {% if fnb.menu_url %}
-        <!-- Menu Url -->
+      <!-- Menu Url -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
@@ -146,7 +150,7 @@
         </div>
       {% endif %}
       {% if fnb.order_url %}
-        <!-- Order Url -->
+      <!-- Order Url -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
@@ -160,7 +164,7 @@
         </div>
       {% endif %}
       {% if fnb.wordcloud_image %}
-        <!-- Wordcloud Image -->
+      <!-- Wordcloud Image -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
@@ -171,6 +175,56 @@
         </div>
       {% endif %}
       <img class="mt-2" src="data:image/png;base64,{{ fnb.wordcloud_image }}" alt="Word Cloud for {{ fnb.name }}">
+      {% if fnb.reviews %}
+      <!-- Top 3 reviews -->
+        <div class="row mt-2">
+          <div class="d-flex align-items-center">
+            <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
+              <i class="ni ni-msg-writing-1 text-md opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="text-xs font-weight-bolder ms-2">Top 3 recent reviews</span>
+          </div>
+        </div>
+        {% for review in fnb.reviews.all|slice:":3" %}
+          <li>
+            <span class="text-xs">
+              <a href="{{review.reviewer.url}}" target="blank"><b>{{ review.reviewer.name }}</b></a>
+              {% if review.reviewer.type %}
+                {{ review.reviewer.type }}
+              {% endif %}
+              {% if review.reviewer.reviews_count %}
+                • {{ review.reviewer.reviews_count }} reviews
+              {% endif %}
+              {% if review.reviewer.photos_count %}
+                • {{ review.reviewer.photos_count }} photos
+              {% endif %}
+          </span>
+          <br>
+          <span>
+            {% if review.rating == 1 %}
+              ⭐☆☆☆☆
+            {% elif review.rating == 2 %}
+              ⭐⭐☆☆☆
+            {% elif review.rating == 3 %}
+              ⭐⭐⭐☆☆
+            {% elif review.rating == 4 %}
+              ⭐⭐⭐⭐☆
+            {% elif review.rating == 5 %}
+              ⭐⭐⭐⭐⭐
+            {% endif %}
+          </span>
+            {% if review.text %}
+              <p class="text-sm">{{ review.text }}</p>
+            {% endif %}
+            {% if review.photos %}
+            <!-- Photo -->
+              {% for photo in review.photos %}
+                <img src="{{ photo }}" class="img-thumbnail">
+              {% endfor %}
+          {% endif %}
+          </li>
+        {% endfor %}
+      {% endif %}
     </div>
   </div>
 </div>
