@@ -103,9 +103,52 @@
       </div>
       <div class="row mt-4">
         <div class="col-xl-7 col-sm-6 mb-xl-0 mb-4">
-          {% for fnb in top_5_fnbs %}
+          {% for fnb in fnbs_page %}
             {% include "includes/fnb-card.html" with fnb=fnb%}
           {% endfor %}
+          <div class="mt-4">
+            <ul class="pagination pagination-primary m-4 justify-content-center">       
+              {% if fnbs_page.has_previous %}
+                <li class="page-item" aria-label="First">
+                  <a class="page-link" href="?page=1">
+                    <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                  </a>
+                </li>
+                <li class="page-item" aria-label="Previous">
+                  <a class="page-link" href="?page={{ fnbs_page.previous_page_number }}">
+                    <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                  </a>
+                </li>
+              {% endif %}
+
+              {# Determine the range of pages to display #}
+              {% with current=fnbs_page.number total_pages=fnbs_page.paginator.num_pages %}
+                  {% for num in fnbs_page.paginator.page_range %}
+                      {# Display links to pages around the current page #}
+                      {% if num > current|add:'-3' and num < current|add:'3' %}
+                          <li class="page-item {% if num == current %} active {% endif %}">
+                              <a class="page-link" href="?page={{ num }}">
+                                <span class="{% if num == current %} text-white {% endif %}">{{ num }}</span>
+                              </a>
+                          </li>
+                      {% endif %}
+                  {% endfor %}
+              {% endwith %}
+
+              {% if fnbs_page.has_next %}
+                <li class="page-item" aria-label="Next">
+                  <a class="page-link" href="?page={{ fnbs_page.next_page_number }}">
+                    <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                  </a>
+                </li>
+                <li class="page-item" aria-label="Last">
+                  <a class="page-link" href="?page={{ fnbs_page.paginator.num_pages }}">
+                    <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                  </a>
+                </li>
+              {% endif %}
+            </ul>
+          </div>
         </div>
         <div class="col-xl-5 col-sm-6 mb-xl-0 mb-4">
           <div class="card z-index-2">

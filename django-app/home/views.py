@@ -12,6 +12,7 @@ from io import BytesIO
 import base64
 from django.http import HttpResponse
 from collections import Counter
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # Create your views here.
 
@@ -22,6 +23,9 @@ def generate_wordcloud_for_fnb(fnb_id):
     # Ensure each review text is a string and filter out None values
     text = ' '.join([review for review in reviews if review])
 
+    if not text:
+        return None
+    
     # Define stopwords to exclude
     stopwords = set(STOPWORDS)
 
@@ -54,6 +58,28 @@ def index(request):
     )
 
     top_5_fnbs = fnbs[:5]
+
+    """
+        Paginations Here
+    """
+
+    default_page = 1
+    page = request.GET.get('page', default_page)
+
+    # Get queryset of FNBs to paginate
+
+    # Paginated FNBs
+    fnbs_per_page = 5
+    paginator = Paginator(fnbs, fnbs_per_page)
+
+    try:
+        fnbs_page = paginator.page(page)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver first page.
+        fnbs_page = paginator.page(default_page)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver last page of results.
+        fnbs_page = paginator.page(paginator.num_pages)
 
     """
         EDA Functions Here
@@ -91,12 +117,13 @@ def index(request):
 
     gradient_cycle = cycle(gradients)
 
-    for fnb in top_5_fnbs:
+    for fnb in fnbs_page:
         fnb.wordcloud_image = generate_wordcloud_for_fnb(fnb.id)
         fnb.category_gradients = [(category, next(gradient_cycle)) for category in fnb.categories]
     
     # Calculate the number of fnbs for each categories
     return render(request, 'pages/index.html', {
+        'fnbs_page': fnbs_page,
         'top_5_fnbs': top_5_fnbs,
         'total_fnbs_count': total_fnbs_count,
         'total_reviews_count': total_reviews_count,
