@@ -158,12 +158,16 @@
             </div>
             <span class="text-xs font-weight-bolder ms-2">Foodpanda Order Url:</span>
             <div class="ms-2">
-              <a class="text-xs font-weight-bolder text-break" href="{{ fnb.order_url }}" target="_blank">{{ fnb.order_url }}</a>
+              <a class="text-xs font-weight-bolder text-break" href="{{ fnb.order_url }}" target="_blank">
+                <span class="text-xs">
+                  {{ fnb.order_url }}
+                </span>
+              </a>
             </div>
           </div>
         </div>
       {% endif %}
-      {% if fnb.wordcloud_image %}
+      {% if fnb.reviews and fnb.wordcloud_image %}
       <!-- Wordcloud Image -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
@@ -173,9 +177,9 @@
             <span class="text-xs font-weight-bolder ms-2">What is everyone talking about this FNB?</span>
           </div>
         </div>
+        <img class="mt-2 img-thumbnail" src="data:image/png;base64,{{ fnb.wordcloud_image }}" alt="Word Cloud for {{ fnb.name }}">
       {% endif %}
-      <img class="mt-2 img-thumbnail" src="data:image/png;base64,{{ fnb.wordcloud_image }}" alt="Word Cloud for {{ fnb.name }}">
-      {% if fnb.reviews %}
+      {% if fnb.reviews.all.exists %}
       <!-- Top 3 reviews -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
