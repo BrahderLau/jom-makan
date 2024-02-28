@@ -35,8 +35,8 @@
                   <div class="numbers">
                     <p class="text-sm mb-0 text-capitalize font-weight-bold">Total F&B</p>
                     <h5 class="font-weight-bolder mb-0">
-                      {{ fnbs|length }}
-                      <span class="text-danger text-sm font-weight-bolder">+50</span>
+                      {{ total_fnbs_count }}
+                      <span class="text-success text-sm font-weight-bolder">+50</span>
                     </h5>
                   </div>
                 </div>
@@ -104,7 +104,9 @@
       </div>
       <div class="row mt-4">
         <div class="col-xl-7 col-sm-6 mb-xl-0 mb-4">
-          {% include "includes/fnb-card.html" %}
+          {% for fnb in top_5_fnbs %}
+            {% include "includes/fnb-card.html" with fnb=fnb%}
+          {% endfor %}
         </div>
       </div>
       {{ category_names }}

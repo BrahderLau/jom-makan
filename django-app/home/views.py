@@ -20,6 +20,7 @@ def index(request):
     """
 
     # Calculate total reviews and overall average rating across all FNBs
+    total_fnbs_count = FNB.objects.count()
     total_reviews_count = Review.objects.count()
     overall_average_rating = Review.objects.aggregate(overall_avg_rating=Avg('rating'))['overall_avg_rating']
     overall_average_rating = "{:.2f}".format(overall_average_rating)
@@ -29,8 +30,9 @@ def index(request):
 
     return render(request, 'pages/index.html', {
         'top_5_fnbs': top_5_fnbs,
+        'total_fnbs_count': total_fnbs_count,
         'total_reviews_count': total_reviews_count,
         'overall_average_rating': overall_average_rating,
         'category_names': 'test',
-        'category_counts': 'tes'
+        'category_counts': 'test'
     })

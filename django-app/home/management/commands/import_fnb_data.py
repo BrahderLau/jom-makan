@@ -57,18 +57,26 @@ class Command(BaseCommand):
                 reviewer = None
                 review = None
 
-                # Parse date fields
+                # Parse expiry date
                 expiry_date = row.get('Halal Certification Expiry Date')
                 if expiry_date:
                     expiry_date = datetime.strptime(expiry_date, '%Y-%m-%d').date()
                 else:
                     expiry_date = None
 
+                # Parse opening hours dictionary
+                opening_hours = row.get('Opening Hours')
+                if opening_hours:
+                    opening_hours = ast.literal_eval(opening_hours)
+                else: 
+                    opening_hours = {}
+
                 try:
 
                     fnb = FNB.objects.create(
-                        name=row['Name'],
+                        name=row['Name'],             
                         categories=row['Category'],
+                        opening_hours=opening_hours,
                         area=row['Area'],
                         located_in=row['Located In'],
                         address=row['Address'],
