@@ -46,7 +46,7 @@ def index(request):
         
     # Prefetch the reviews and their related reviewers
     reviews_prefetch = Prefetch('reviews', queryset=Review.objects.select_related('reviewer'))
-
+    
     # Fetch all FNB ojbects, prefetching related reviews and their reviewers
     fnbs = FNB.objects.prefetch_related(reviews_prefetch).all().annotate(
         average_rating=Round(Avg('reviews__rating')),
