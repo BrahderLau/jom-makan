@@ -15,4 +15,4 @@ services:
         value: 4
 
 databases:
-  - name: jom-makan-db
+  - name: jom-makan-pg
