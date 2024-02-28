@@ -2,6 +2,8 @@
 
 #### Visit the official website of Jom Makan! App >>>[HERE](https://jom-makan.onrender.com/)<<<
 
+#### Github Repo >>>[HERE](https://github.com/BrahderLau/jom-makan)<<<
+
 ![image](screenshots/screenshot-jom-makan-app.png)
 
 ## Problem Statement:
