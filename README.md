@@ -2,6 +2,8 @@
 
 #### Visit the official website of Jom Makan! App >>>[HERE](https://jom-makan.onrender.com/)<<<
 
+![image](screenshots/screenshot-jom-makan-app.png)
+
 ## Problem Statement:
 
 #### 1) Difficult to identify whether the restaurants has halal certificate provided by JAKIM or not when searched in Google Map. (Searching "Halal Food" for example, will find the restaurants with the keyword "halal" in the reviews, therefore non-halal results will still appear)
