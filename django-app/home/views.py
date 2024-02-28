@@ -87,6 +87,7 @@ def index(request):
 
     # Convert the counter to a list of (category, count) tuples for easy rendering in the template
     category_counts = list(category_counter.items())
+    category_counts = sorted(category_counts, key=lambda x: x[1], reverse=True)
 
     gradient_cycle = cycle(gradients)
 
