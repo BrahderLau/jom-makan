@@ -3,7 +3,7 @@ services:
     name: jom-makan
     plan: starter
     env: python
-    region: Singapore
+    region: singapore
     buildCommand: "./build.sh"
     startCommand: "gunicorn core.wsgi:application"
     envVars:
@@ -13,3 +13,6 @@ services:
         generateValue: true
       - key: WEB_CONCURRENCY
         value: 4
+
+databases:
+  - name: jom-makan-db
