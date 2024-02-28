@@ -3,12 +3,32 @@
     <div class="card-body">
       <!-- Name -->
       <div class="row">
-        <div class="col-8">
-          <div class="numbers">
-            <h5 sclass="mt-3 mb-0">{{ fnb.name }}</h5>
-          </div>
+        <div class="d-flex">
+          <h5 sclass="mt-3 mb-0">{{ fnb.name }}</h5>
+          {% if fnb.average_rating %}
+            <span class="badge badge-sm bg-gradient-primary">
+              Average Rating: {{ fnb.average_rating|default:"Not rated yet" }} ⭐ ({{fnb.reviews_count}})
+            </span>
+          {% endif %}
+          {% if fnb.halal_certification_expiry_date %}
+            <span class="badge badge-sm bg-gradient-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ fnb.halal_certification_expiry_date }}">
+              Halal Certified
+            </span>
+          {% endif %}
         </div>
       </div>
+      {% if fnb.photo %}
+        <img src="{{ fnb.photo }}" class="fnb-img">
+      {% endif %}
+      {% if fnb.categories %}
+        <div class="row mt-2">
+          <div class="d-flex align-items-center">
+            {% for category, gradient in fnb.category_gradients %}
+                <span class="badge badge-sm {{ gradient }}">{{ category }}</span>
+            {% endfor %}
+          </div>
+        </div>
+      {% endif %}
       {% if fnb.opening_hours %}
         <!-- Opening Hours -->
         <div class="row mt-2">
@@ -33,7 +53,7 @@
       <div class="row mt-2">
         <div class="d-flex align-items-center">
           <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
-            <i class="ni ni-location-2-1 text-md opacity-10" aria-hidden="true"></i>
+            <i class="ni ni-globe-pointer-1 text-md opacity-10" aria-hidden="true"></i>
           </div>
           <span class="text-xs font-weight-bolder ms-2">Area:</span>
           <div class="ms-2">
@@ -69,20 +89,88 @@
           </div>
         </div>
       {% endif %}
-      {% if fnb.contact %}
+      {% if fnb.phone %}
         <!-- Contact -->
         <div class="row mt-2">
           <div class="d-flex align-items-center">
             <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
               <i class="ni ni-phone-1 text-md opacity-10" aria-hidden="true"></i>
             </div>
-            <span class="text-xs font-weight-bolder ms-2">Contact:</span>
+            <span class="text-xs font-weight-bolder ms-2">Phone:</span>
             <div class="ms-2">
-              <span class="text-xs font-weight-bolder">{{ fnb.contact }}</span>
+              <span class="text-xs font-weight-bolder">{{ fnb.phone }}</span>
             </div>
           </div>
         </div>
       {% endif %}
+      {% if fnb.google_map_url %}
+        <!-- Google Map Url -->
+        <div class="row mt-2">
+          <div class="d-flex align-items-center">
+            <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
+              <i class="ni ni-link-1 text-md opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="text-xs font-weight-bolder ms-2">Google Map Url:</span>
+            <div class="ms-2">
+              <a class="text-xs font-weight-bolder text-break" href="{{ fnb.google_map_url }}" target="_blank">{{ fnb.google_map_url }}</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if fnb.menu_url %}
+        <!-- Menu Url -->
+        <div class="row mt-2">
+          <div class="d-flex align-items-center">
+            <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
+              <i class="ni ni-pizza-slice-2-1 text-md opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="text-xs font-weight-bolder ms-2">Menu Url:</span>
+            <div class="ms-2">
+              <a class="text-xs font-weight-bolder text-break" href="{{ fnb.menu_url }}" target="_blank">{{ fnb.menu_url }}</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if fnb.website_url %}
+      <!-- Website Url -->
+        <div class="row mt-2">
+          <div class="d-flex align-items-center">
+            <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
+              <i class="ni ni-link-1 text-md opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="text-xs font-weight-bolder ms-2">Website Url:</span>
+            <div class="ms-2">
+              <a class="text-xs font-weight-bolder text-break" href="{{ fnb.website_url }}" target="_blank">{{ fnb.website_url }}</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if fnb.order_url %}
+        <!-- Order Url -->
+        <div class="row mt-2">
+          <div class="d-flex align-items-center">
+            <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
+              <i class="ni ni-bicycle-1 text-md opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="text-xs font-weight-bolder ms-2">Foodpanda Order Url:</span>
+            <div class="ms-2">
+              <a class="text-xs font-weight-bolder text-break" href="{{ fnb.order_url }}" target="_blank">{{ fnb.order_url }}</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+      {% if fnb.wordcloud_image %}
+        <!-- Wordcloud Image -->
+        <div class="row mt-2">
+          <div class="d-flex align-items-center">
+            <div class="icon icon-shape-sm bg-gradient-primary shadow text-center border-radius-md">
+              <i class="ni ni-bullhorn-1 text-md opacity-10" aria-hidden="true"></i>
+            </div>
+            <span class="text-xs font-weight-bolder ms-2">What is everyone talking about this FNB?</span>
+          </div>
+        </div>
+      {% endif %}
+      <img class="mt-2" src="data:image/png;base64,{{ fnb.wordcloud_image }}" alt="Word Cloud for {{ fnb.name }}">
     </div>
   </div>
 </div>

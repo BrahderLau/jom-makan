@@ -1,4 +1,4 @@
-# Authentic Food Reviews Based on Google Map
+# Jom Makan! : NLP categorization based on google map reviews
 
 ## Problem Statement:
 
@@ -53,3 +53,6 @@
 
 ## Git Other Commands
 #### 1) ```git rm --cached your-folder-or-file-name``` if you have issues of tracking your files
+
+## Command to import data from CSV
+#### ```python manage.py import_fnb_data```

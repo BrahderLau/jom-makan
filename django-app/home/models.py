@@ -4,8 +4,9 @@ from django.db import models
 class FNB(models.Model):
     # Basic Information
     name = models.CharField(max_length=200)
-    opening_hours = models.JSONField(default=dict, blank=True)
+    photo = models.URLField(null=True, blank=True)
     categories = models.JSONField(default=list, blank=True)
+    opening_hours = models.JSONField(default=dict, blank=True)
     area = models.CharField(max_length=50)
     located_in = models.CharField(max_length=200, null=True, blank=True)
     address = models.TextField(null=True, blank=True)
