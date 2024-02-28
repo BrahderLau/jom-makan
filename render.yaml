@@ -16,3 +16,6 @@ services:
 
 databases:
   - name: jom-makan-pg
+  - region: singapore
+  - plan: starter
+  - databaseName: jom_makan_db
