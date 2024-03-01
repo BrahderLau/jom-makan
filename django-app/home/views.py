@@ -1,6 +1,6 @@
 from collections import Counter
 from django.shortcuts import render
-from django.db.models import Prefetch, Count, Avg
+from django.db.models import Prefetch, Count, Avg, Q
 from django.http import HttpResponse
 from .models import FNB, Review
 import ast
@@ -13,6 +13,7 @@ import base64
 from django.http import HttpResponse
 from collections import Counter
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from datetime import datetime
 
 # Create your views here.
 
@@ -57,7 +58,58 @@ def index(request):
         reviews_count=Count('reviews')
     )
 
-    top_5_fnbs = fnbs[:5]
+    #top_5_fnbs = fnbs[:5]
+
+    """
+        Search query
+    """
+    #searched_fnbs = None
+    submitbutton = None
+    query = None
+    halal_filter = None
+    non_halal_filter = None
+    current_date = datetime.now().date()
+
+    if request.method == 'GET':
+        # print("GET request received")  # Debug: Check if it's a GET request
+        query = request.GET.get('q', '')
+        # print(f"Query: {query}")  # Debug: Output the query
+        submitbutton = request.GET.get('submit')
+        # print(f"Submit Button: {submitbutton}")  # Debug: Check the submit button value
+        halal_filter = request.GET.get('halal_filter', '') == 'on'
+        non_halal_filter = request.GET.get('non_halal_filter', '') == 'on'
+
+    halal_filter_str = 'on' if halal_filter else ''
+    non_halal_filter_str = 'on' if non_halal_filter else ''
+
+    if query is not None:
+
+        lookups = Q(name__icontains=query) | Q(area__icontains=query) | Q(categories__icontains=query)
+
+        if halal_filter is True and non_halal_filter is False:
+
+            halal_lookup = Q(halal_certification_expiry_date__gte=current_date) & Q(halal_certification_expiry_date__isnull=False)
+            fnbs = FNB.objects.filter(halal_lookup & lookups)
+
+        elif halal_filter is False and non_halal_filter is True:
+
+            non_halal_lookup = Q(halal_certification_expiry_date__lt=current_date) | Q(halal_certification_expiry_date__isnull=True)
+            fnbs = FNB.objects.filter(non_halal_lookup & lookups)
+
+        else:
+            fnbs = FNB.objects.filter(lookups)
+
+    else:
+
+        if halal_filter is True and non_halal_filter is False:
+
+            halal_lookup = Q(halal_certification_expiry_date__gte=current_date) & Q(halal_certification_expiry_date__isnull=False)
+            fnbs = FNB.objects.filter(halal_lookup)
+
+        elif halal_filter is False and non_halal_filter is True:
+
+            non_halal_lookup = Q(halal_certification_expiry_date__lt=current_date) | Q(halal_certification_expiry_date__isnull=True)
+            fnbs = FNB.objects.filter(non_halal_lookup)
 
     """
         Paginations Here
@@ -124,9 +176,14 @@ def index(request):
     # Calculate the number of fnbs for each categories
     return render(request, 'pages/index.html', {
         'fnbs_page': fnbs_page,
-        'top_5_fnbs': top_5_fnbs,
+        #'searched_fnbs': searched_fnbs,
+        'submitbutton': submitbutton,
+        'query': query,
+        'halal_filter_str': halal_filter_str,
+        'non_halal_filter_str': non_halal_filter_str,
+        #'top_5_fnbs': top_5_fnbs,
         'total_fnbs_count': total_fnbs_count,
         'total_reviews_count': total_reviews_count,
         'overall_average_rating': overall_average_rating,
-        'category_counts': category_counts
+        'category_counts': category_counts,
     })
