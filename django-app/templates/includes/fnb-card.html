@@ -13,9 +13,12 @@
           {% endif %}
           {% if fnb.halal_certification_expiry_date %}
           <!-- Halal Certification -->
-            <span class="badge badge-sm bg-gradient-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ fnb.halal_certification_expiry_date }}">
+            <!-- <span class="badge badge-sm bg-gradient-success" data-bs-toggle="tooltip" data-bs-placement="bottom" title="{{ fnb.halal_certification_expiry_date }}">
               Halal Certified
-            </span>
+            </span> -->
+            <div class="mx-2" tooltip" data-bs-placement="bottom" title="Expiry date: {{ fnb.halal_certification_expiry_date }}">
+              <img src="../../static/assets/logo_halal.png" class="avatar avatar-sm me-3" alt="logo halal">
+            </div>
           {% endif %}
         </div>
       </div>
