@@ -85,7 +85,7 @@
               </div>
               <div class="col-4 text-end">
                 <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                  <i class="ni ni-msg-writing-1 text-lg opacity-10" aria-hidden="true"></i>
+                  <i class="ni ni-star-sparkle-2 text-lg opacity-10" aria-hidden="true"></i>
                 </div>
               </div>
             </div>
@@ -126,33 +126,32 @@
       <div class="col-xl-7 col-sm-6 mb-xl-0 mb-4 justify-content-center">
         {% if fnbs_page %}
           {% for fnb in fnbs_page %}
-            {% include "includes/fnb-card.html" with fnb=fnb%}
+            {% include "includes/fnb-card.html" with fnb=fnb %}
           {% endfor %}
         {% else %}
           <span class="align-items-center justify-content-center">Oops! No results found. Please try again.</span>
         {% endif %}
         <div class="mt-4">
           <ul class="pagination pagination-primary m-4 justify-content-center">
-            {% with current_filters="q="|add:request.GET.q|default:""|add:"&halal_filter="|add:halal_filter_str|add:"&non_halal_filter="|add:non_halal_filter_str %}
+            <!-- IF EMPTY QUERY, BOTH HALAL FILTER ARE ON OR OFF -->
+            {% if query == '' and halal_filter == non_halal_filter %}
               {% if fnbs_page.has_previous %}
                 <li class="page-item" aria-label="First">
-                  <a class="page-link" href="?page=1&{{ current_filters }}">
+                  <a class="page-link" href="?page=1">
                     <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
                   </a>
                 </li>
                 <li class="page-item" aria-label="Previous">
-                  <a class="page-link" href="?page={{ fnbs_page.previous_page_number }}&{{ current_filters }}">
+                  <a class="page-link" href="?page={{ fnbs_page.previous_page_number }}">
                     <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
                   </a>
                 </li>
               {% endif %}
 
-              <!-- Determine the range of pages to display -->
               {% for num in fnbs_page.paginator.page_range %}
-                <!-- Display links to pages around the current page -->
                 {% if num > fnbs_page.number|add:'-3' and num < fnbs_page.number|add:'3' %}
                     <li class="page-item {% if num == fnbs_page.number %} active {% endif %}">
-                        <a class="page-link" href="?page={{ num }}&{{ current_filters }}">
+                        <a class="page-link" href="?page={{ num }}">
                           <span class="{% if num == fnbs_page.number %} text-white {% endif %}">{{ num }}</span>
                         </a>
                     </li>
@@ -161,17 +160,55 @@
 
               {% if fnbs_page.has_next %}
                 <li class="page-item" aria-label="Next">
-                  <a class="page-link" href="?page={{ fnbs_page.next_page_number }}&{{ current_filters }}">
+                  <a class="page-link" href="?page={{ fnbs_page.next_page_number }}">
                     <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
                   </a>
                 </li>
                 <li class="page-item" aria-label="Last">
-                  <a class="page-link" href="?page={{ fnbs_page.paginator.num_pages }}&{{ current_filters }}">
+                  <a class="page-link" href="?page={{ fnbs_page.paginator.num_pages }}">
                     <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
                   </a>
                 </li>
               {% endif %}
-            {% endwith %}
+            {% else %}
+              {% with current_filters="q="|add:request.GET.q|default:""|add:"&halal_filter="|add:halal_filter_str|default:"off"|add:"&non_halal_filter="|add:non_halal_filter_str|default:"off"%}
+                {% if fnbs_page.has_previous %}
+                  <li class="page-item" aria-label="First">
+                    <a class="page-link" href="?page=1&{{ current_filters }}">
+                      <span aria-hidden="true"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                    </a>
+                  </li>
+                  <li class="page-item" aria-label="Previous">
+                    <a class="page-link" href="?page={{ fnbs_page.previous_page_number }}&{{ current_filters }}">
+                      <span aria-hidden="true"><i class="fa fa-angle-left" aria-hidden="true"></i></span>
+                    </a>
+                  </li>
+                {% endif %}
+
+                {% for num in fnbs_page.paginator.page_range %}
+                  {% if num > fnbs_page.number|add:'-3' and num < fnbs_page.number|add:'3' %}
+                      <li class="page-item {% if num == fnbs_page.number %} active {% endif %}">
+                          <a class="page-link" href="?page={{ num }}&{{ current_filters }}">
+                            <span class="{% if num == fnbs_page.number %} text-white {% endif %}">{{ num }}</span>
+                          </a>
+                      </li>
+                  {% endif %}
+                {% endfor %}
+
+                {% if fnbs_page.has_next %}
+                  <li class="page-item" aria-label="Next">
+                    <a class="page-link" href="?page={{ fnbs_page.next_page_number }}&{{ current_filters }}">
+                      <span aria-hidden="true"><i class="fa fa-angle-right" aria-hidden="true"></i></span>
+                    </a>
+                  </li>
+                  <li class="page-item" aria-label="Last">
+                    <a class="page-link" href="?page={{ fnbs_page.paginator.num_pages }}&{{ current_filters }}">
+                      <span aria-hidden="true"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                    </a>
+                  </li>
+                {% endif %}
+              {% endwith %}
+            {% endif %}
           </ul>
         </div>
       </div>
