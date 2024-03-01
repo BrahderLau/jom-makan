@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 # Create your models here.
 class FNB(models.Model):
@@ -25,6 +26,9 @@ class FNB(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_halal_expired(self):
+        return date.today() > self.halal_certification_expiry_date
 
 
 class Reviewer(models.Model):

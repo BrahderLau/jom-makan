@@ -13,7 +13,7 @@ import base64
 from django.http import HttpResponse
 from collections import Counter
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from datetime import datetime
+from datetime import date
 
 # Create your views here.
 
@@ -68,7 +68,7 @@ def index(request):
     query = None
     halal_filter = None
     non_halal_filter = None
-    current_date = datetime.now().date()
+    current_date = date.today()
 
     if request.method == 'GET':
         # print("GET request received")  # Debug: Check if it's a GET request
@@ -78,8 +78,10 @@ def index(request):
         # print(f"Submit Button: {submitbutton}")  # Debug: Check the submit button value
         halal_filter = request.GET.get('halal_filter', '') == 'on'
         non_halal_filter = request.GET.get('non_halal_filter', '') == 'on'
+
         halal_filter_str = 'on' if halal_filter else 'off'
         non_halal_filter_str = 'on' if non_halal_filter else 'off'
+
 
     if query is not None:
 
@@ -89,7 +91,7 @@ def index(request):
 
             halal_lookup = Q(halal_certification_expiry_date__gte=current_date) & Q(halal_certification_expiry_date__isnull=False)
             fnbs = FNB.objects.filter(halal_lookup & lookups).order_by('name')
-
+             
         elif halal_filter is False and non_halal_filter is True:
 
             non_halal_lookup = Q(halal_certification_expiry_date__lt=current_date) | Q(halal_certification_expiry_date__isnull=True)
@@ -173,6 +175,7 @@ def index(request):
         fnb.category_gradients = [(category, next(gradient_cycle)) for category in fnb.categories]
 
     return render(request, 'pages/index.html', {
+        'current_date': current_date,
         'fnbs_page': fnbs_page,
         #'searched_fnbs': searched_fnbs,
         'submitbutton': submitbutton,
